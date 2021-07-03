@@ -3,7 +3,7 @@
         "allowJs": false,
         "lib": ["ES2017", "ES2019.Array"],
         "module": "commonjs",
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "target": "es6",
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,

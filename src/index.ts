@@ -1,5 +1,8 @@
 require("./ambient");
 
+import $ from "jquery";
+import { EventType, StreamElementEvent, StreamElementObject } from "./types";
+
 const events = [];
 let loading = false;
 let total = 0;
@@ -26,12 +29,6 @@ function normalizeSub() {
 function isResub(data: StreamElementEvent) {
     return data.count != 1;
 }
-
-const Events = {
-    Sub: "subscriber",
-    Tip: "tip",
-    Cheer: "cheer"
-};
 
 function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms, null));
@@ -149,13 +146,13 @@ function queueEvent(event: StreamElementEvent) {
     if (event) {
         let donation = null;
         switch (event.type) {
-            case Events.Sub:
+            case EventType.Subscriber:
                 donation = !isResub(event) ? normalizeSub() * subPercent : 0;
                 break;
-            case Events.Tip:
+            case EventType.Tip:
                 donation = normalizeTip(event.amount) * tipPercent;
                 break;
-            case Events.Cheer:
+            case EventType.Cheer:
                 donation = normalizeCheer(event.amount) * cheerPercent;
                 break;
             default:

@@ -1,22 +1,22 @@
-enum EventType {
+export enum EventType {
     Cheer = "cheer",
     Tip = "tip",
     Subscriber = "subscriber"
 }
 
-enum EventCategory {
+export enum EventCategory {
     CheerLatest = "cheer-latest",
     TipLatest = "tip-latest",
     SubscriberLatest = "subscriber-latest"
 }
 
-interface StreamElementCatalogItem {
+export interface StreamElementCatalogItem {
     name: string;
     price: number;
     quantity: number;
 }
 
-interface StreamElementEvent {
+export interface StreamElementEvent {
     amount: number;
     count: number;
     isTest: boolean;
@@ -31,7 +31,7 @@ interface StreamElementEvent {
     type: EventType;
 }
 
-interface StreamElementObject {
+export interface StreamElementObject {
     detail: {
         event: {
             event: StreamElementEvent;
