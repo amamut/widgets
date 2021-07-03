@@ -1,0 +1,20 @@
+{
+  "name": "beer-fill",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.5",
+    "@types/node": "^16.0.0",
+    "prettier": "^2.3.2",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.42.0"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}
