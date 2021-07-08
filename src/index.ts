@@ -136,7 +136,7 @@ function setFill() {
     if (currentFill > MAXFILL) {
         currentFill = MAXFILL;
     }
-    console.log(`Current fill: ${currentFill}`);
+    // console.log(`Current fill: ${currentFill}`);
 }
 
 function pushEvent(amount: number) {
@@ -144,7 +144,7 @@ function pushEvent(amount: number) {
 }
 
 function queueEvent(event: StreamElementEvent) {
-    console.log(`QUEUING EVENT`, event);
+    // console.log(`QUEUING EVENT`, event);
     if (event) {
         let donation = null;
         switch (event.type) {
@@ -177,7 +177,7 @@ window.addEventListener("onEventReceived", async function (obj: StreamElementObj
     if (!event.listener || event.listener.indexOf("-latest") === -1) {
         return;
     }
-    console.log("EVENT", event.event);
+    // console.log("EVENT", event.event);
     queueEvent(event.event);
     if (!loading) {
         loading = true;
