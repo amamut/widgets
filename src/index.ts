@@ -1,9 +1,10 @@
 require("./ambient");
+require("./beer-fill.css");
 
 import $ from "jquery";
 import { EventType, StreamElementEvent, StreamElementObject } from "./types";
 
-const events = [];
+const events: { amount: number }[] = [];
 let loading = false;
 let total = 0;
 
@@ -121,20 +122,21 @@ async function triggerAnimation() {
     await beerPour();
 }
 
-function resetFill() {
+async function resetFill() {
     if (currentFill >= MAXFILL) {
         total = 0;
         currentFill = 0;
-        return slideOut();
+        return Promise.resolve(await slideOut());
     }
     return Promise.resolve();
 }
 
 function setFill() {
-    if (total > 100) {
-        total = 100;
-    }
     currentFill = (total / 100) * MAXFILL;
+    if (currentFill > MAXFILL) {
+        currentFill = MAXFILL;
+    }
+    console.log(`Current fill: ${currentFill}`);
 }
 
 function pushEvent(amount: number) {
@@ -142,12 +144,18 @@ function pushEvent(amount: number) {
 }
 
 function queueEvent(event: StreamElementEvent) {
-    console.log(`QUEUING EVENT ${event}`);
+    console.log(`QUEUING EVENT`, event);
     if (event) {
         let donation = null;
         switch (event.type) {
             case EventType.Subscriber:
-                donation = !isResub(event) ? normalizeSub() * subPercent : 0;
+                if (event.gifted) {
+                    donation = normalizeSub() * subPercent;
+                } else if (event.bulkGifted) {
+                    donation = normalizeSub() * event.amount * subPercent;
+                } else {
+                    donation = !isResub(event) ? normalizeSub() * subPercent : 0;
+                }
                 break;
             case EventType.Tip:
                 donation = normalizeTip(event.amount) * tipPercent;
@@ -165,14 +173,23 @@ function queueEvent(event: StreamElementEvent) {
 }
 
 window.addEventListener("onEventReceived", async function (obj: StreamElementObject) {
-    const event = obj.detail.event.event;
-    queueEvent(event);
+    const event = obj.detail.event;
+    if (!event.listener || event.listener.indexOf("-latest") === -1) {
+        return;
+    }
+    console.log("EVENT", event.event);
+    queueEvent(event.event);
     if (!loading) {
         loading = true;
-        await resetFill();
-
-        setFill();
-        await triggerAnimation();
+        let donation = events.shift();
+        while (donation) {
+            console.log(`Processing ${donation.amount}`);
+            await resetFill();
+            total += donation.amount;
+            setFill();
+            await triggerAnimation();
+            donation = events.shift();
+        }
         loading = false;
     }
 });

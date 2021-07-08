@@ -19,6 +19,8 @@ export interface StreamElementCatalogItem {
 export interface StreamElementEvent {
     amount: number;
     count: number;
+    gifted: boolean;
+    bulkGifted: boolean;
     isTest: boolean;
     items: StreamElementCatalogItem[];
     message: string;
@@ -35,6 +37,7 @@ export interface StreamElementObject {
     detail: {
         event: {
             event: StreamElementEvent;
+            listener: string;
         };
     };
 }

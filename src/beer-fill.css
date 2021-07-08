@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background-color:  #E9573F;
+    /* background-color:  #E9573F; */
     text-align: center;
 }
 h1 {
@@ -13,23 +13,22 @@ h1 {
     border-bottom: solid 5px white;
     transform: skew(0, -5deg);
 }
-section {
-     background-color: #FC6E51;
-}
+/* section {
+    background-color: #FC6E51;
+} */
 #action {
     margin: 0 auto;
     width: 700px;
     position: relative;
     height: 300px;
-
 }
 
 #keg {
     position: absolute;
     height: 200px;
     width: 70px;
-    background-color: #656D78;
-    border-right: solid 20px #434A54;
+    background-color: #656d78;
+    border-right: solid 20px #434a54;
     bottom: 0;
     left: 310px;
 }
@@ -39,7 +38,7 @@ section {
     width: 10px;
     top: 30px;
     left: 10px;
-    background-color: #CCD1D9;
+    background-color: #ccd1d9;
 }
 
 #pipe:before {
@@ -50,7 +49,7 @@ section {
     width: 30px;
     top: -5px;
     left: 5px;
-    background: linear-gradient(to bottom, #CCD1D9 50%, #AAB2BD 50%);
+    background: linear-gradient(to bottom, #ccd1d9 50%, #aab2bd 50%);
     border-radius: 0 10px 10px 0;
 }
 
@@ -63,16 +62,17 @@ section {
 }
 
 #pipe.flow:after {
-  animation: flow 6s ease infinite;
+    animation: flow 6s ease infinite;
 }
 
 @keyframes flow {
-    0%, 15% {
+    0%,
+    15% {
         top: 30px;
         height: 0px;
     }
     20% {
-         height: 125px;
+        height: 125px;
     }
     40% {
         top: 30px;
@@ -82,7 +82,8 @@ section {
         top: 30px;
         height: 125px;
     }
-    60%, 100% {
+    60%,
+    100% {
         top: 30px;
         height: 0px;
     }
@@ -94,9 +95,9 @@ section {
     width: 14px;
     top: 25px;
     left: 5px;
-    background-color: #F5F7FA;
+    background-color: #f5f7fa;
     border-radius: 10px;
-    border: solid 3px #CCD1D9;
+    border: solid 3px #ccd1d9;
 }
 
 #pipe-handle {
@@ -112,7 +113,7 @@ section {
 }
 
 #pipe-handle.pull {
-  animation: handle 6s ease infinite;
+    animation: handle 6s ease infinite;
 }
 
 #pipe-handle:before {
@@ -120,10 +121,10 @@ section {
     top: -60px;
     left: -10px;
     display: block;
-    content: ' ';
+    content: " ";
     width: 20px;
     height: 10px;
-    background-color: #CCD1D9;
+    background-color: #ccd1d9;
     border-radius: 5px 5px 0 0;
 }
 #pipe-handle:after {
@@ -131,19 +132,22 @@ section {
     top: -20px;
     left: -5px;
     display: block;
-    content: ' ';
+    content: " ";
     width: 10px;
     height: 20px;
-    background-color: #CCD1D9;
+    background-color: #ccd1d9;
 }
 @keyframes handle {
-    0%, 10% {
-       transform: rotate(0deg);
+    0%,
+    10% {
+        transform: rotate(0deg);
     }
-    20%, 50% {
-         transform: rotate(-90deg);
+    20%,
+    50% {
+        transform: rotate(-90deg);
     }
-    60%, 100% {
+    60%,
+    100% {
         transform: rotate(0deg);
     }
 }
@@ -153,7 +157,7 @@ section {
     height: 100px;
     width: 70px;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.0);
+    background-color: rgba(255, 255, 255, 0);
     border-radius: 5px;
 }
 
@@ -162,7 +166,8 @@ section {
         opacity: 0;
         left: 0;
     }
-    20%, 80% {
+    20%,
+    80% {
         opacity: 1;
         left: 300px;
     }
@@ -200,12 +205,12 @@ section {
     background-color: white;
     /*top: -20px;*/
     border-radius: 5px 5px 0 0;
-/*     animation: fillupfoam 5s linear, wave 0.5s alternate infinite; */
+    /*     animation: fillupfoam 5s linear, wave 0.5s alternate infinite; */
 }
 
 .foam.wave {
-      animation: wave 0.5s alternate infinite;
-/*     animation: wave 0.5s alternate infinite; */
+    animation: wave 0.5s alternate infinite;
+    /*     animation: wave 0.5s alternate infinite; */
 }
 
 .handle {
@@ -229,24 +234,28 @@ section {
 }
 
 @keyframes fillup {
-    0%, 20% {
+    0%,
+    20% {
         height: 0px;
         border-width: 0px;
     }
     40% {
         height: 40px;
     }
-    80%, 100% {
+    80%,
+    100% {
         height: 80px;
         border-width: 5px;
     }
 }
 @keyframes fillupfoam {
-    0%, 20% {
+    0%,
+    20% {
         top: 0px;
         height: 0px;
     }
-    60%, 100% {
+    60%,
+    100% {
         top: -14px;
         height: 15px;
     }
