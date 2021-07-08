@@ -1,7 +1,7 @@
 require("./beer-fill.css");
 
 import $ from "jquery";
-import { EventType, StreamElementEvent, StreamElementLoadingObject, StreamElementObject } from "./types";
+import { EventType, StreamElementEvent, StreamElementEventObject, StreamElementLoadingObject } from "./types";
 
 const events: { amount: number }[] = [];
 let loading = false;
@@ -186,7 +186,7 @@ function init() {
 }
 
 window.addEventListener("onEventReceived", async (evt: Event) => {
-    const event = (<CustomEvent<StreamElementObject>>evt).detail.event;
+    const event = (<CustomEvent<StreamElementEventObject>>evt).detail.event;
     if (!event.listener || event.listener.indexOf("-latest") === -1) {
         return;
     }

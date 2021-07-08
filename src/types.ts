@@ -60,7 +60,7 @@ export interface FieldData {
     fillCounter: number;
 }
 
-export interface StreamElementObject {
+export interface StreamElementEventObject {
     event: {
         event: StreamElementEvent;
         listener: string;
