@@ -1,7 +1,7 @@
 require("./beer-fill.css");
 
 import $ from "jquery";
-import { EventType, StreamElementEvent, StreamElementObject } from "./types";
+import { EventType, StreamElementEvent, StreamElementLoadingObject, StreamElementObject } from "./types";
 
 const events: { amount: number }[] = [];
 let loading = false;
@@ -185,8 +185,6 @@ function init() {
     setCounter();
 }
 
-init();
-
 window.addEventListener("onEventReceived", async (evt: Event) => {
     const event = (<CustomEvent<StreamElementObject>>evt).detail.event;
     if (!event.listener || event.listener.indexOf("-latest") === -1) {
@@ -208,3 +206,22 @@ window.addEventListener("onEventReceived", async (evt: Event) => {
         loading = false;
     }
 });
+
+window.addEventListener("onWidgetLoad", async (evt: Event) => {
+    const data = (<CustomEvent<StreamElementLoadingObject>>evt).detail.fieldData;
+    if (data.fillCounter) {
+        fillCounter = data.fillCounter;
+    }
+    if (data.counterColor) {
+        console.log(`Setting color ${data.counterColor}`);
+        $("#odometer").css("color", data.counterColor);
+    }
+    if (data.startingAmount) {
+        console.log(`Prefilling to ${data.startingAmount}`);
+        total += data.startingAmount;
+        setFill();
+        await triggerAnimation();
+    }
+});
+
+init();

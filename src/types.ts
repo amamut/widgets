@@ -33,9 +33,42 @@ export interface StreamElementEvent {
     type: EventType;
 }
 
+export interface FieldData {
+    backgroundColor: string;
+    backgroundOpacity: number;
+    direction: string;
+    eventsLimit: number;
+    fadeoutTime: number;
+    fontColor: string;
+    iconColor: string;
+    includeCheers: string;
+    includeFollowers: string;
+    includeHosts: string;
+    includeRaids: string;
+    includeRedemptions: string;
+    includeSubs: string;
+    includeTips: string;
+    locale: string;
+    minCheer: number;
+    minHost: number;
+    minRaid: number;
+    minTip: number;
+    textOrder: string;
+    theme: string;
+    counterColor: string;
+    startingAmount: number;
+    fillCounter: number;
+}
+
 export interface StreamElementObject {
     event: {
         event: StreamElementEvent;
         listener: string;
     };
+}
+
+export interface StreamElementLoadingObject {
+    channel: any;
+    currency: any;
+    fieldData: FieldData;
 }
