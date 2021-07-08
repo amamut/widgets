@@ -34,10 +34,8 @@ export interface StreamElementEvent {
 }
 
 export interface StreamElementObject {
-    detail: {
-        event: {
-            event: StreamElementEvent;
-            listener: string;
-        };
+    event: {
+        event: StreamElementEvent;
+        listener: string;
     };
 }

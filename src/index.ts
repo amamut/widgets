@@ -1,4 +1,3 @@
-require("./ambient");
 require("./beer-fill.css");
 
 import $ from "jquery";
@@ -14,6 +13,8 @@ let currentFill = 0;
 const subPercent = 1;
 const cheerPercent = 1;
 const tipPercent = 1;
+
+let fillCounter = 0;
 
 function normalizeTip(amount: number) {
     return amount;
@@ -133,8 +134,10 @@ async function resetFill() {
 
 function setFill() {
     currentFill = (total / 100) * MAXFILL;
-    if (currentFill > MAXFILL) {
+    if (currentFill >= MAXFILL) {
         currentFill = MAXFILL;
+        fillCounter++;
+        setCounter();
     }
     // console.log(`Current fill: ${currentFill}`);
 }
@@ -172,8 +175,20 @@ function queueEvent(event: StreamElementEvent) {
     }
 }
 
-window.addEventListener("onEventReceived", async function (obj: StreamElementObject) {
-    const event = obj.detail.event;
+function setCounter() {
+    setTimeout(function () {
+        $("#odometer").html(String(fillCounter));
+    }, 1000);
+}
+
+function init() {
+    setCounter();
+}
+
+init();
+
+window.addEventListener("onEventReceived", async (evt: Event) => {
+    const event = (<CustomEvent<StreamElementObject>>evt).detail.event;
     if (!event.listener || event.listener.indexOf("-latest") === -1) {
         return;
     }

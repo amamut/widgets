@@ -1,5 +1,5 @@
-export { };
+// export { };
 
-declare global {
-  const window: any;
-}
+// declare global {
+//   const window: any;
+// }
