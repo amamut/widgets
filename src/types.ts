@@ -1,3 +1,5 @@
+export const includeEvents = ["tip-latest", "cheer-latest", "donation-latest"];
+
 export enum EventType {
     Cheer = "cheer",
     Tip = "tip",
@@ -61,10 +63,8 @@ export interface FieldData {
 }
 
 export interface StreamElementEventObject {
-    event: {
-        event: StreamElementEvent;
-        listener: string;
-    };
+    event: StreamElementEvent;
+    listener: string;
 }
 
 export interface StreamElementLoadingObject {

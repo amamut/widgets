@@ -1,20 +1,44 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __awaiter =
+    (this && this.__awaiter) ||
+    function (thisArg, _arguments, P, generator) {
+        function adopt(value) {
+            return value instanceof P
+                ? value
+                : new P(function (resolve) {
+                      resolve(value);
+                  });
+        }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) {
+                try {
+                    step(generator.next(value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function rejected(value) {
+                try {
+                    step(generator["throw"](value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function step(result) {
+                result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+            }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+var __importDefault =
+    (this && this.__importDefault) ||
+    function (mod) {
+        return mod && mod.__esModule ? mod : { default: mod };
+    };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./beer-fill.css");
 const jquery_1 = __importDefault(require("jquery"));
-const types_1 = require("./types");
+const types_1 = require("../dist/types");
 const events = [];
 let loading = false;
 let total = 0;
@@ -41,10 +65,13 @@ function timeout(ms) {
 }
 function slideIn() {
     const glass = jquery_1.default(".glass");
-    glass.animate({
-        opacity: 1,
-        left: "300px"
-    }, 1000);
+    glass.animate(
+        {
+            opacity: 1,
+            left: "300px"
+        },
+        1000
+    );
     return glass.promise();
 }
 function slideOut() {
@@ -89,30 +116,36 @@ function beerFill() {
     return __awaiter(this, void 0, void 0, function* () {
         const beer = jquery_1.default(".beer");
         const foam = jquery_1.default(".foam");
-        beer.animate({
-            height: `${currentFill}px`,
-            "border-width": 0
-        }, {
-            duration: 2000,
-            easing: "linear",
-            queue: true
-        });
+        beer.animate(
+            {
+                height: `${currentFill}px`,
+                "border-width": 0
+            },
+            {
+                duration: 2000,
+                easing: "linear",
+                queue: true
+            }
+        );
         yield beer.promise();
-        foam.animate({
-            top: "-14px",
-            height: "15px"
-        }, {
-            start: function () {
-                foam.toggleClass("wave");
+        foam.animate(
+            {
+                top: "-14px",
+                height: "15px"
             },
-            complete: function () {
-                return __awaiter(this, void 0, void 0, function* () {
-                    yield timeout(1000);
+            {
+                start: function () {
                     foam.toggleClass("wave");
-                });
-            },
-            queue: false
-        });
+                },
+                complete: function () {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        yield timeout(1000);
+                        foam.toggleClass("wave");
+                    });
+                },
+                queue: false
+            }
+        );
     });
 }
 function triggerAnimation() {
@@ -151,11 +184,9 @@ function queueEvent(event) {
             case types_1.EventType.Subscriber:
                 if (event.gifted) {
                     donation = normalizeSub() * subPercent;
-                }
-                else if (event.bulkGifted) {
+                } else if (event.bulkGifted) {
                     donation = normalizeSub() * event.amount * subPercent;
-                }
-                else {
+                } else {
                     donation = !isResub(event) ? normalizeSub() * subPercent : 0;
                 }
                 break;
@@ -181,42 +212,47 @@ function setCounter() {
 function init() {
     setCounter();
 }
-window.addEventListener("onEventReceived", (evt) => __awaiter(void 0, void 0, void 0, function* () {
-    const event = evt.detail.event;
-    if (!event.listener || event.listener.indexOf("-latest") === -1) {
-        return;
-    }
-    // console.log("EVENT", event.event);
-    queueEvent(event.event);
-    if (!loading) {
-        loading = true;
-        let donation = events.shift();
-        while (donation) {
-            console.log(`Processing ${donation.amount}`);
-            yield resetFill();
-            total += donation.amount;
+window.addEventListener("onEventReceived", (evt) =>
+    __awaiter(void 0, void 0, void 0, function* () {
+        if (!types_1.includeEvents.includes(evt.detail.listener)) {
+            return;
+        }
+        console.log(evt);
+        const event = evt.detail.event;
+        // console.log("EVENT", event.event);
+        queueEvent(event);
+        if (!loading) {
+            loading = true;
+            let donation = events.shift();
+            while (donation) {
+                console.log(`Processing ${donation.amount}`);
+                yield resetFill();
+                total += donation.amount;
+                setFill();
+                yield triggerAnimation();
+                donation = events.shift();
+            }
+            loading = false;
+        }
+    })
+);
+window.addEventListener("onWidgetLoad", (evt) =>
+    __awaiter(void 0, void 0, void 0, function* () {
+        const data = evt.detail.fieldData;
+        if (data.fillCounter) {
+            fillCounter = data.fillCounter;
+        }
+        if (data.counterColor) {
+            console.log(`Setting color ${data.counterColor}`);
+            jquery_1.default("#odometer").css("color", data.counterColor);
+        }
+        if (data.startingAmount) {
+            console.log(`Prefilling to ${data.startingAmount}`);
+            total += data.startingAmount;
             setFill();
             yield triggerAnimation();
-            donation = events.shift();
         }
-        loading = false;
-    }
-}));
-window.addEventListener("onWidgetLoad", (evt) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = evt.detail.fieldData;
-    if (data.fillCounter) {
-        fillCounter = data.fillCounter;
-    }
-    if (data.counterColor) {
-        console.log(`Setting color ${data.counterColor}`);
-        jquery_1.default("#odometer").css("color", data.counterColor);
-    }
-    if (data.startingAmount) {
-        console.log(`Prefilling to ${data.startingAmount}`);
-        total += data.startingAmount;
-        setFill();
-        yield triggerAnimation();
-    }
-}));
+    })
+);
 init();
 //# sourceMappingURL=index.js.map
