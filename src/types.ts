@@ -1,4 +1,4 @@
-export const includeEvents = ["tip-latest", "cheer-latest", "donation-latest"];
+export const includeEvents = ["tip-latest", "cheer-latest", "subscriber-latest"];
 
 export enum EventType {
     Cheer = "cheer",
@@ -21,8 +21,9 @@ export interface StreamElementCatalogItem {
 export interface StreamElementEvent {
     amount: number;
     count: number;
-    gifted: boolean;
-    bulkGifted: boolean;
+    gifted?: boolean;
+    bulkGifted?: boolean;
+    isCommunityGift?: boolean;
     isTest: boolean;
     items: StreamElementCatalogItem[];
     message: string;
@@ -30,7 +31,7 @@ export interface StreamElementEvent {
     name: string;
     originalEventName: EventCategory;
     sessionTop: boolean;
-    tier: string;
+    tier: number;
     tts: boolean;
     type: EventType;
 }

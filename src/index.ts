@@ -1,11 +1,19 @@
 require("./beer-fill.css");
 
 import $ from "jquery";
-import { EventType, includeEvents, StreamElementEvent, StreamElementLoadingObject } from "./types";
+import {
+    EventType,
+    includeEvents,
+    StreamElementEvent,
+    StreamElementEventObject,
+    StreamElementLoadingObject
+} from "./types";
 
 const events: { amount: number }[] = [];
 let loading = false;
 let total = 0;
+
+const SUBCOST = 5;
 
 const MAXFILL = 80;
 let currentFill = 0;
@@ -24,12 +32,21 @@ function normalizeCheer(amount: number) {
     return amount / 100;
 }
 
-function normalizeSub() {
-    return 5;
+function tierMultiplier(tier: number) {
+    switch (tier) {
+        case 1000:
+            return 1;
+        case 2000:
+            return 2;
+        case 3000:
+            return 5;
+        default:
+            return 1;
+    }
 }
 
 function isResub(data: StreamElementEvent) {
-    return data.count != 1;
+    return data.amount != 1;
 }
 
 function timeout(ms: number) {
@@ -139,7 +156,6 @@ function setFill() {
         fillCounter++;
         setCounter();
     }
-    // console.log(`Current fill: ${currentFill}`);
 }
 
 function pushEvent(amount: number) {
@@ -147,17 +163,18 @@ function pushEvent(amount: number) {
 }
 
 function queueEvent(event: StreamElementEvent) {
-    // console.log(`QUEUING EVENT`, event);
     if (event) {
         let donation = null;
         switch (event.type) {
             case EventType.Subscriber:
-                if (event.gifted) {
-                    donation = normalizeSub() * subPercent;
-                } else if (event.bulkGifted) {
-                    donation = normalizeSub() * event.amount * subPercent;
+                if (event.bulkGifted) {
+                    donation = tierMultiplier(event.tier) * SUBCOST * event.amount * subPercent;
+                } else if (event.isCommunityGift) {
+                    return;
+                } else if (event.gifted) {
+                    donation = tierMultiplier(event.tier) * SUBCOST * subPercent;
                 } else {
-                    donation = !isResub(event) ? normalizeSub() * subPercent : 0;
+                    donation = !isResub(event) ? tierMultiplier(event.tier) * SUBCOST * subPercent : 0;
                 }
                 break;
             case EventType.Tip:
@@ -186,12 +203,10 @@ function init() {
 }
 
 window.addEventListener("onEventReceived", async (evt: Event) => {
-    if (!includeEvents.includes((<CustomEvent>evt).detail.listener)) {
+    if (!includeEvents.includes((<CustomEvent<StreamElementEventObject>>evt).detail.listener)) {
         return;
     }
-    console.log(evt);
-    const event = (<CustomEvent>evt).detail.event;
-    // console.log("EVENT", event.event);
+    const event = (<CustomEvent<StreamElementEventObject>>evt).detail.event;
     queueEvent(event);
     if (!loading) {
         loading = true;
@@ -214,11 +229,9 @@ window.addEventListener("onWidgetLoad", async (evt: Event) => {
         fillCounter = data.fillCounter;
     }
     if (data.counterColor) {
-        console.log(`Setting color ${data.counterColor}`);
         $("#odometer").css("color", data.counterColor);
     }
     if (data.startingAmount) {
-        console.log(`Prefilling to ${data.startingAmount}`);
         total += data.startingAmount;
         setFill();
         await triggerAnimation();
