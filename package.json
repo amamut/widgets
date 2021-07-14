@@ -4,7 +4,6 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "tsc",
         "pack": "npx webpack",
         "watch": "npx webpack -w"
     },
