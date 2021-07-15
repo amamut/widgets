@@ -1,48 +1,76 @@
-import { triggerAnimation } from "./animations/beer";
-import { setCounter, setOdometerColor } from "./animations/odometer";
-import { queueEvent, State } from "./state";
-import { includeEvents, StreamElementEventObject, StreamElementLoadingObject } from "./types";
+import { EventEmitter } from "events";
+import { isResub } from "./monetary";
+import {
+    EventType,
+    includeEvents,
+    StreamElementEvent,
+    StreamElementEventObject,
+    StreamElementsEventType
+} from "./types";
+
+const POSTEVENT = "postevent";
 
 export class Events {
+    private eventEmitter = new EventEmitter();
+
     constructor() {
-        window.addEventListener("onWidgetLoad", registerOnLoad);
-        window.addEventListener("onEventReceived", registerOnEventReceived);
+        console.log(this.eventEmitter);
+        this.registerOnEventReceived();
+    }
+
+    registerOnLoad<T>(onload: (evt: Event) => Promise<T>) {
+        window.addEventListener("onWidgetLoad", onload);
+    }
+
+    registerOnEventReceived() {
+        window.addEventListener("onEventReceived", this.onEventReceived);
+    }
+
+    onEventReceived = async (evt: Event) => {
+        if (!includeEvents.includes((<CustomEvent<StreamElementEventObject>>evt).detail.listener)) {
+            return;
+        }
+        const event = (<CustomEvent<StreamElementEventObject>>evt).detail.event;
+        const incomingEvent = this.getEventType(event);
+        if (incomingEvent) {
+            console.log("EVENT: ", incomingEvent);
+            this.eventEmitter.emit(incomingEvent, event);
+        }
+    };
+
+    on<T>(t: EventType, handler: (e: StreamElementEvent) => Promise<T> | T) {
+        this.eventEmitter.on(t, handler);
+    }
+
+    end() {
+        this.eventEmitter.emit(POSTEVENT);
+    }
+
+    async registerPostEventHandler<T>(handler: () => Promise<T> | T) {
+        this.eventEmitter.on(POSTEVENT, handler);
+    }
+
+    getEventType(event: StreamElementEvent) {
+        if (event) {
+            switch (event.type) {
+                case StreamElementsEventType.Subscriber:
+                    if (event.bulkGifted) {
+                        return EventType.CommunityGift;
+                    } else if (event.isCommunityGift) {
+                        return EventType.Giftee;
+                    } else if (event.gifted) {
+                        return EventType.Gift;
+                    } else {
+                        return !isResub(event) ? EventType.Sub : EventType.Resub;
+                    }
+                case StreamElementsEventType.Tip:
+                    return EventType.Tip;
+                case StreamElementsEventType.Cheer:
+                    return EventType.Cheer;
+                default:
+                    break;
+            }
+        }
+        return null;
     }
 }
-
-const registerOnEventReceived = async (evt: Event) => {
-    if (!includeEvents.includes((<CustomEvent<StreamElementEventObject>>evt).detail.listener)) {
-        return;
-    }
-    const event = (<CustomEvent<StreamElementEventObject>>evt).detail.event;
-    queueEvent(event);
-    if (!State.loading) {
-        State.loading = true;
-        let donation = State.events.shift();
-        while (donation) {
-            console.log(`Processing ${donation.amount}`);
-            await State.resetFill();
-            State.total += donation.amount;
-            State.setFill();
-            await triggerAnimation();
-            donation = State.events.shift();
-        }
-        State.loading = false;
-    }
-};
-
-const registerOnLoad = async (evt: Event) => {
-    const data = (<CustomEvent<StreamElementLoadingObject>>evt).detail.fieldData;
-    if (data.fillCounter !== undefined) {
-        State.fillCounter = data.fillCounter;
-        setCounter();
-    }
-    if (data.counterColor) {
-        setOdometerColor(data.counterColor);
-    }
-    if (!!data.startingAmount) {
-        State.total += data.startingAmount;
-        State.setFill();
-        await triggerAnimation();
-    }
-};

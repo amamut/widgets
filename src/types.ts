@@ -1,9 +1,19 @@
 export const includeEvents = ["tip-latest", "cheer-latest", "subscriber-latest"];
 
-export enum EventType {
+export enum StreamElementsEventType {
     Cheer = "cheer",
     Tip = "tip",
     Subscriber = "subscriber"
+}
+
+export enum EventType {
+    Cheer = "cheer",
+    Tip = "tip",
+    Sub = "sub",
+    Resub = "resub",
+    Gift = "gift",
+    CommunityGift = "communityGift",
+    Giftee = "giftee"
 }
 
 export enum EventCategory {
@@ -33,7 +43,7 @@ export interface StreamElementEvent {
     sessionTop: boolean;
     tier: number;
     tts: boolean;
-    type: EventType;
+    type: StreamElementsEventType;
 }
 
 export interface FieldData {

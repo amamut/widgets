@@ -5,6 +5,5 @@ export function setOdometerColor(color: string) {
 }
 
 export function setCounter() {
-    console.log(State.fillCounter);
     $("#odometer").html(String(State.fillCounter));
 }
