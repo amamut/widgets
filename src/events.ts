@@ -14,7 +14,6 @@ export class Events {
     private eventEmitter = new EventEmitter();
 
     constructor() {
-        console.log(this.eventEmitter);
         this.registerOnEventReceived();
     }
 
@@ -33,7 +32,6 @@ export class Events {
         const event = (<CustomEvent<StreamElementEventObject>>evt).detail.event;
         const incomingEvent = this.getEventType(event);
         if (incomingEvent) {
-            console.log("EVENT: ", incomingEvent);
             this.eventEmitter.emit(incomingEvent, event);
         }
     };
