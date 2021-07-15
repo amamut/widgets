@@ -4,6 +4,11 @@ function timeout(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms, null));
 }
 
+export async function triggerAnimation() {
+    await slideIn();
+    await beerPour();
+}
+
 export function slideIn() {
     const glass = $(".glass");
     glass.animate(
