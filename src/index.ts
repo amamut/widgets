@@ -47,15 +47,14 @@ events.on(EventType.Sub, (event: StreamElementEvent) => {
     if (donation) {
         pushDonation(donation);
     }
-    events.end();
 });
 
 events.on(EventType.Resub, (event: StreamElementEvent) => {
-    // Do nothing
+    // Do nothing, skip
 });
 
 events.on(EventType.Giftee, (event: StreamElementEvent) => {
-    // Do Nothing
+    // Do Nothing, skip
 });
 
 events.on(EventType.Gift, (event: StreamElementEvent) => {
@@ -63,7 +62,6 @@ events.on(EventType.Gift, (event: StreamElementEvent) => {
     if (donation) {
         pushDonation(donation);
     }
-    events.end();
 });
 
 events.on(EventType.CommunityGift, (event: StreamElementEvent) => {
@@ -71,7 +69,6 @@ events.on(EventType.CommunityGift, (event: StreamElementEvent) => {
     if (donation) {
         pushDonation(donation);
     }
-    events.end();
 });
 
 events.on(EventType.Tip, (event: StreamElementEvent) => {
@@ -79,7 +76,6 @@ events.on(EventType.Tip, (event: StreamElementEvent) => {
     if (donation) {
         pushDonation(donation);
     }
-    events.end();
 });
 
 events.on(EventType.Cheer, (event: StreamElementEvent) => {
@@ -87,5 +83,4 @@ events.on(EventType.Cheer, (event: StreamElementEvent) => {
     if (donation) {
         pushDonation(donation);
     }
-    events.end();
 });

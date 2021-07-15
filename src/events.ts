@@ -8,6 +8,8 @@ import {
     StreamElementsEventType
 } from "./types";
 
+type DonationEventHandler = (e: StreamElementEvent) => Promise<void> | void;
+
 const POSTEVENT = "postevent";
 
 export class Events {
@@ -17,13 +19,20 @@ export class Events {
         this.registerOnEventReceived();
     }
 
-    registerOnLoad<T>(onload: (evt: Event) => Promise<T>) {
+    registerOnLoad(onload: (evt: Event) => Promise<void>) {
         window.addEventListener("onWidgetLoad", onload);
     }
 
     registerOnEventReceived() {
         window.addEventListener("onEventReceived", this.onEventReceived);
     }
+
+    private wrapHandler = (f: DonationEventHandler) => {
+        return async (e: StreamElementEvent) => {
+            await f(e);
+            this.eventEmitter.emit(POSTEVENT);
+        };
+    };
 
     onEventReceived = async (evt: Event) => {
         if (!includeEvents.includes((<CustomEvent<StreamElementEventObject>>evt).detail.listener)) {
@@ -36,15 +45,11 @@ export class Events {
         }
     };
 
-    on<T>(t: EventType, handler: (e: StreamElementEvent) => Promise<T> | T) {
-        this.eventEmitter.on(t, handler);
+    on(t: EventType, handler: DonationEventHandler) {
+        this.eventEmitter.on(t, this.wrapHandler(handler));
     }
 
-    end() {
-        this.eventEmitter.emit(POSTEVENT);
-    }
-
-    async registerPostEventHandler<T>(handler: () => Promise<T> | T) {
+    async registerPostEventHandler(handler: () => Promise<any>) {
         this.eventEmitter.on(POSTEVENT, handler);
     }
 
