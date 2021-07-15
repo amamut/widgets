@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": false,
-        "lib": ["ES2017", "ES2019.Array", "dom"],
+        "lib": ["dom"],
         "module": "commonjs",
         "moduleResolution": "Node",
         "target": "es6",
