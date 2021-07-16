@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "pack": "npx webpack",
+        "webpack": "npx webpack",
         "watch": "npx webpack -w"
     },
     "devDependencies": {
@@ -20,7 +20,7 @@
         "webpack-cli": "^4.7.2"
     },
     "dependencies": {
-        "@amamut/streamelementsevents": "^0.0.7",
+        "@amamut/streamelementsevents": "^0.0.9",
         "jquery": "^3.6.0"
     }
 }
