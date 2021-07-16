@@ -6,7 +6,7 @@ import { normalizeCheer, normalizeTip, tierMultiplier } from "./monetary";
 import { CHEERPERCENT, pushDonation, State, SUBCOST, SUBPERCENT, TIPPERCENT } from "./state";
 import { EventType, StreamElementEvent, StreamElementLoadingObject } from "./types";
 
-const processEvent = async () => {
+const postProcess = async () => {
     if (!State.loading) {
         State.loading = true;
         let donation = State.donations.shift();
@@ -40,7 +40,7 @@ const registerOnLoad = async (evt: Event) => {
 
 const events = new Events();
 events.registerOnLoad(registerOnLoad);
-events.registerPostEventHandler(processEvent);
+events.registerPostEventHandler(postProcess);
 
 events.on(EventType.Sub, (event: StreamElementEvent) => {
     const donation = tierMultiplier(event.tier) * SUBCOST * SUBPERCENT;
