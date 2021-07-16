@@ -1,6 +1,6 @@
 {
     "name": "beer-fill",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "index.js",
     "license": "MIT",
     "scripts": {
@@ -20,6 +20,7 @@
         "webpack-cli": "^4.7.2"
     },
     "dependencies": {
+        "@amamut/streamelementsevents": "^0.0.2",
         "jquery": "^3.6.0"
     }
 }
