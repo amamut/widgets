@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@amamut/streamelementsevents@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@amamut/streamelementsevents/-/streamelementsevents-0.0.6.tgz#ff7e7a5004a4317726a0fcc36e984dece6912f48"
-  integrity sha512-M0Fuc8F9yZDBLbVNCSUVca/hP7/22h4cXIW0V6+qUTzxN5jNJ/QrTCyCFFR1Q/FkeyH+jeFbUtdDHSmltmoIoQ==
+"@amamut/streamelementsevents@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@amamut/streamelementsevents/-/streamelementsevents-0.0.7.tgz#4db9dbca1a76bffa8ac26117820364a08b72cbd0"
+  integrity sha512-Lua1+3uAhymm6gq25XtYVDId0MSYIkcjlofI1FMCBJNg7i7M7nIs1E0Qh35Skfl5+4SGNLAm0yDOw/qTp9jzSw==
 
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.3"
