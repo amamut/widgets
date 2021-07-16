@@ -12,15 +12,26 @@ export class Events {
     constructor() {
         this.registerOnEventReceived();
     }
-
+    /**
+     * Registers a custom function on load of your widget to do some preprocessing.
+     * @param  {(evt:Event)=>Promise<void>} onload A function to register on load of widget
+     */
     registerOnLoad(onload: (evt: Event) => Promise<void>) {
         window.addEventListener("onWidgetLoad", onload);
     }
-
+    /**
+     * Creates an event handler for a Stream Elements event
+     * @param  {EventType} t The event type to listen for
+     * @param  {DonationEventHandler} handler Function which handle the event
+     */
     on(t: EventType, handler: DonationEventHandler) {
         this.eventEmitter.on(t, this.wrapHandler(handler));
     }
 
+    /**
+     * Registers an post event handler which is called after your event has been processed
+     * @param  {()=>Promise<any>} handler Function which is run after your event handler completes
+     */
     async registerPostEventHandler(handler: () => Promise<any>) {
         this.eventEmitter.on(POSTEVENT, handler);
     }

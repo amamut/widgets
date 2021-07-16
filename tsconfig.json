@@ -18,6 +18,7 @@
         "declaration": false,
         "resolveJsonModule": true,
         "experimentalDecorators": true,
+        "removeComments": true
     },
     "include": ["src/**/*"],
     "exclude": ["tmp/**/*", "node_modules"],
