@@ -1,10 +1,9 @@
 require("./includes/beer-fill.css");
+import { Events, EventType, StreamElementEvent, StreamElementLoadingObject } from "@amamut/streamelementsevents";
 import { triggerAnimation } from "./animations/beer";
 import { setCounter, setOdometerColor } from "./animations/odometer";
-import { Events } from "./events";
 import { normalizeCheer, normalizeTip, tierMultiplier } from "./monetary";
 import { CHEERPERCENT, pushDonation, State, SUBCOST, SUBPERCENT, TIPPERCENT } from "./state";
-import { EventType, StreamElementEvent, StreamElementLoadingObject } from "./types";
 
 const postProcess = async () => {
     if (!State.loading) {

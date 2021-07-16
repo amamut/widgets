@@ -1,4 +1,4 @@
-import { StreamElementEvent } from "./types";
+import { StreamElementEvent } from "@amamut/streamelementsevents";
 
 export function normalizeTip(amount: number) {
     return amount;
