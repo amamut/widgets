@@ -20,7 +20,7 @@
         "webpack-cli": "^4.7.2"
     },
     "dependencies": {
-        "@amamut/streamelementsevents": "^0.0.9",
+        "@amamut/streamelementsevents": "^1.0.0",
         "jquery": "^3.6.0"
     }
 }
