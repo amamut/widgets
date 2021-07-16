@@ -49,14 +49,6 @@ events.on(EventType.Sub, (event: StreamElementEvent) => {
     }
 });
 
-events.on(EventType.Resub, (event: StreamElementEvent) => {
-    // Do nothing, skip
-});
-
-events.on(EventType.Giftee, (event: StreamElementEvent) => {
-    // Do Nothing, skip
-});
-
 events.on(EventType.Gift, (event: StreamElementEvent) => {
     const donation = tierMultiplier(event.tier) * SUBCOST * SUBPERCENT;
     if (donation) {

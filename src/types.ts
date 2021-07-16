@@ -1,9 +1,18 @@
-export const allowedEvents = ["tip-latest", "cheer-latest", "subscriber-latest"];
-
-export enum StreamElementsEventType {
-    Cheer = "cheer",
-    Tip = "tip",
-    Subscriber = "subscriber"
+export enum StreamElementsEventListeners {
+    MessageListener = "message",
+    DeleteMessageListener = "delete-message",
+    DeleteMessagesListener = "delete-messages",
+    TipLatestListener = "tip-latest",
+    CheerLatestListener = "cheer-latest",
+    SubscriberLatestListener = "subscriber-latest",
+    HostLatestListener = "host-latest",
+    RaidLatestListener = "raid-latest",
+    FollowerLatestListener = "follower-latest",
+    BotCounterListener = "bot:counter",
+    EventSkipListener = "event:skip",
+    EventTestListener = "event:test",
+    KVStoreListener = "kvstore:update",
+    ToggleSoundListener = "alertService:toggleSound"
 }
 
 export enum EventType {
@@ -13,7 +22,18 @@ export enum EventType {
     Resub = "resub",
     Gift = "gift",
     CommunityGift = "communityGift",
-    Giftee = "giftee"
+    Giftee = "giftee",
+    Raid = "raid",
+    Host = "host",
+    Message = "message",
+    DeleteMessage = "deleteMessage",
+    DeleteMessages = "deleteMessages",
+    Follower = "follower",
+    BotCounter = "botCounter",
+    EventSkip = "eventSkip",
+    EventTest = "eventTest",
+    KVStoreUpdate = "kvStoreUpdate",
+    ToggleSound = "toggleSound"
 }
 
 export enum EventCategory {
@@ -43,7 +63,7 @@ export interface StreamElementEvent {
     sessionTop: boolean;
     tier: number;
     tts: boolean;
-    type: StreamElementsEventType;
+    type: string;
 }
 
 export interface FieldData {
@@ -74,8 +94,8 @@ export interface FieldData {
 }
 
 export interface StreamElementEventObject {
-    event: StreamElementEvent;
-    listener: string;
+    event?: StreamElementEvent;
+    listener?: string;
 }
 
 export interface StreamElementLoadingObject {
