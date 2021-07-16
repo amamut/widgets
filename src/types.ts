@@ -8,11 +8,14 @@ export enum StreamElementsEventListeners {
     HostLatestListener = "host-latest",
     RaidLatestListener = "raid-latest",
     FollowerLatestListener = "follower-latest",
+    RedemptionLatest = "redemption-latest",
+    MerchLatest = "merch-latest",
     BotCounterListener = "bot:counter",
     EventSkipListener = "event:skip",
     EventTestListener = "event:test",
     KVStoreListener = "kvstore:update",
-    ToggleSoundListener = "alertService:toggleSound"
+    ToggleSoundListener = "alertService:toggleSound",
+    WidgetButtonListener = "widget-button"
 }
 
 export enum EventType {
@@ -28,10 +31,13 @@ export enum EventType {
     Message = "message",
     DeleteMessage = "deleteMessage",
     DeleteMessages = "deleteMessages",
+    Merch = "merch",
+    Redemption = "redemption",
     Follower = "follower",
     BotCounter = "botCounter",
     EventSkip = "eventSkip",
     EventTest = "eventTest",
+    WidgetButton = "widgetButton",
     KVStoreUpdate = "kvStoreUpdate",
     ToggleSound = "toggleSound"
 }
@@ -64,6 +70,7 @@ export interface StreamElementEvent {
     tier: number;
     tts: boolean;
     type: string;
+    listener?: string;
 }
 
 export interface FieldData {

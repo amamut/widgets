@@ -86,6 +86,9 @@ export class Events {
             case StreamElementsEventListeners.EventSkipListener:
                 return EventType.EventSkip;
             case StreamElementsEventListeners.EventTestListener:
+                if (event.listener === StreamElementsEventListeners.WidgetButtonListener) {
+                    return EventType.WidgetButton;
+                }
                 return EventType.EventTest;
             case StreamElementsEventListeners.BotCounterListener:
                 return EventType.BotCounter;
