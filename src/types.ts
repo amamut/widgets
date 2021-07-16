@@ -1,4 +1,4 @@
-export const includeEvents = ["tip-latest", "cheer-latest", "subscriber-latest"];
+export const allowedEvents = ["tip-latest", "cheer-latest", "subscriber-latest"];
 
 export enum StreamElementsEventType {
     Cheer = "cheer",

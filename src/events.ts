@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
 import { isResub } from "./monetary";
 import {
+    allowedEvents,
     EventType,
-    includeEvents,
     StreamElementEvent,
     StreamElementEventObject,
     StreamElementsEventType
@@ -35,7 +35,7 @@ export class Events {
     };
 
     onEventReceived = async (evt: Event) => {
-        if (!includeEvents.includes((<CustomEvent<StreamElementEventObject>>evt).detail.listener)) {
+        if (!allowedEvents.includes((<CustomEvent<StreamElementEventObject>>evt).detail.listener)) {
             return;
         }
         const event = (<CustomEvent<StreamElementEventObject>>evt).detail.event;
