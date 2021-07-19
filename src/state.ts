@@ -5,7 +5,7 @@ export const SUBCOST = 5;
 export const SUBPERCENT = 1;
 export const CHEERPERCENT = 1;
 export const TIPPERCENT = 1;
-export const MAXFILL = 100;
+export const MAXFILL = 80;
 
 export function pushDonation(amount: number) {
     State.donations.push({ amount });
@@ -24,7 +24,7 @@ export class State {
     }
 
     static async resetFill() {
-        if (this.currentFill >= State.maxFill) {
+        if (this.total >= State.maxFill) {
             this.total = 0;
             this.currentFill = 0;
             return Promise.resolve(await slideOut());
@@ -33,8 +33,7 @@ export class State {
     }
 
     static setFill() {
-        this.currentFill = this.total * (MAXFILL / State.maxFill);
-        console.log(this.total, MAXFILL);
+        this.currentFill = (this.total * MAXFILL) / this.maxFill;
         if (this.currentFill >= MAXFILL) {
             this.currentFill = MAXFILL;
             this.fillCounter++;
