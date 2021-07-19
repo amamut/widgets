@@ -23,6 +23,9 @@ const postProcess = async () => {
 
 const registerOnLoad = async (evt: Event) => {
     const data = (<CustomEvent<StreamElementLoadingObject>>evt).detail.fieldData;
+    if (data.maxFill !== undefined && !isNaN(data.maxFill)) {
+        State.setMaxFill(data.maxFill);
+    }
     if (data.fillCounter !== undefined) {
         State.fillCounter = data.fillCounter;
         setCounter();
